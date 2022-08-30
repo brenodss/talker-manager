@@ -15,7 +15,7 @@ route.get('/', (req, res) =>
 route.get('/:id', (req, res) => {
   const { id } = req.params;
   const talkerPerson = parseContent().find((dataBaseID) => dataBaseID.id === Number(id));
-  if (!talkerPerson) return res.status(200).send({ message: 'Pessoa palestrante não encontrada' });
+  if (!talkerPerson) return res.status(404).send({ message: 'Pessoa palestrante não encontrada' });
   res.status(200).send(talkerPerson);
 });
 
