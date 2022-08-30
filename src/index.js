@@ -1,7 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
+const fs = require('fs');
 const talkerRoute = require('./routes/talkerRoutes');
+const checkPassword = require('./middleWares/checkPassword');
+const checkEmail = require('./middleWares/checkEmail');
+const tokenValidation = require('./middleWares/tokenValidation');
+const checkTalkerName = require('./middleWares/checkTalkerName');
+const checkTalkerAge = require('./middleWares/checkTalkerAge');
+const talk = require('./middleWares/checkTalkerEvent');
+const rate = require('./middleWares/checkRate');
+
+const writePeople = (data) => fs.writeFileSync('./src/talker.json', JSON.stringify(data));
 
 // Encrypt
 // const checkTalkers = require('./middleWares/checkTalkers');
@@ -12,8 +22,25 @@ const app = express();
 app.use(bodyParser.json());
 app.use('/talker', talkerRoute);
 
-app.post('/login', /* checkLogin , */ (req, res) => {
+app.post('/login', checkEmail, checkPassword, (req, res) => {
   res.status(200).json({ token: crypto.randomBytes(8).toString('hex') });
+});
+
+app.post('/talker', tokenValidation, checkTalkerName, checkTalkerAge, talk, rate,
+ async (req, res) => {
+  const content = fs.readFileSync('./src/talker.json', 'utf-8');
+  const parseContent = JSON.parse(content);
+  const request = req.body;
+
+  const nextTalker = { 
+    id: parseContent.length + 1,
+    ...request,
+  };
+
+  const newArray = [...parseContent, nextTalker];
+  console.log('newArr', newArray);
+  await writePeople(newArray);
+  res.status(201).send(nextTalker);
 });
 
 const HTTP_OK_STATUS = 200;
