@@ -33,4 +33,12 @@ route.put('/:id', tokenValidation, checkTalkerName, checkTalkerAge, talk, rate,
   res.status(200).send(updatedPerson);
 });
 
+route.delete('/:id', tokenValidation, (req, res) => {
+  const { id: paramID } = req.params;
+
+  const filterPerson = parseContent().filter((talker) => Number(talker.id) !== Number(paramID));
+  writePeople(filterPerson);
+  res.status(204).send();
+});
+
 module.exports = route;
