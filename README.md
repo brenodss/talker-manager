@@ -18,3 +18,6 @@ Para isso desenvolvi uma API de um CRUD (Create, Read, Update e Delete) de pales
   docker-compose up
 </li>
 </ul>
+
+<h2>Nota</h2>
+<img alt="imagem nota" src="./talkermanager.png"/>
