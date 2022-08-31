@@ -20,4 +20,4 @@ Para isso desenvolvi uma API de um CRUD (Create, Read, Update e Delete) de pales
 </ul>
 
 <h2>Nota</h2>
-<img alt="imagem nota" src="./talkermanager.png" width='800' height='600'/>
+<img alt="imagem nota" src="./talkermanager.png" width='800' height='700'/>
