@@ -38,7 +38,6 @@ app.post('/talker', tokenValidation, checkTalkerName, checkTalkerAge, talk, rate
   };
 
   const newArray = [...parseContent, nextTalker];
-  console.log('newArr', newArray);
   await writePeople(newArray);
   res.status(201).send(nextTalker);
 });

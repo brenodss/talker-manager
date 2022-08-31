@@ -8,6 +8,16 @@ const { parseContent, writePeople } = require('./utils/readFile');
 
 const route = express.Router();
 
+route.get('/search?', tokenValidation, (req, res) => {
+  const { q: searchedName } = req.query;
+  const findTalkerByName = parseContent().filter((talker) => talker.name.includes(searchedName));
+
+  if (!searchedName) return res.status(200).send(parseContent);
+  if (!findTalkerByName) return res.status(200).send([]);
+  
+  res.status(200).send(findTalkerByName);
+});
+
 route.get('/', (req, res) => 
   // const completePath = join('/src');
    res.status(200).send(parseContent()));
